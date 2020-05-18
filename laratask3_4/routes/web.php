@@ -27,8 +27,3 @@ Route::post('/updateCompleted',[
     'uses' => 'TaskController@completedUpdate',
     'as' => 'updateCompleted'
 ]);
-
-Route::post('/updateTasks',[
-    'uses' => 'TaskController@updateTasks',
-    'as' => 'updateTasks'
-]);

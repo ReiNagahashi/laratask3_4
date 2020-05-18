@@ -10,8 +10,8 @@ class TaskController extends Controller
     
     public function index(){
         $tasks = Task::all();
-        $completedTasks = Task::where('completed','!=', 0)->get();
-        $uncompletedTasks = Task::where('completed','==', 0)->get();
+        $completedTasks = Task::where('isCompleted','!==', false)->get();
+        $uncompletedTasks = Task::where('isCompleted','===', true)->get();
 
         return view('home')->with('tasks',$tasks)
                            ->with('completedTasks',$completedTasks)
@@ -24,7 +24,7 @@ class TaskController extends Controller
 
         $task = new Task;
         $task->title = $request->title;
-        $task->completed = 0;
+        $task->isCompleted = false;
         $task->save();
 
         return redirect()->back();
@@ -33,10 +33,10 @@ class TaskController extends Controller
     public function completedUpdate(Request $request){
         $task = Task::find($request->task_id);
 
-        if($task->completed != 0){
-            $task->completed = 0;
+        if($task->isCompleted){
+            $task->isCompleted = false;
         }else{
-            $task->completed = 1;
+            $task->isCompleted = true;
         }
         $task->update();
 

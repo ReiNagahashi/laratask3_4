@@ -44,7 +44,7 @@
                             <form action="/updateCompleted" method="post">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{$task->id}}">
-                                    @if($task->completed != 0)
+                                    @if($task->isCompleted)
                                     <input class="btn btn-success" type="submit" value="完了">
                                     @else
                                     <input class="btn btn-info" type="submit" value="作業中">
@@ -64,10 +64,10 @@
                             <form action="/updateCompleted" method="post">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{$task->id}}">
-                                    @if($task->completed != 0)
-                                    <input class="btn btn-success" type="submit" value="完了">
+                                    @if($task->isCompleted)
+                                        <input class="btn btn-success" type="submit" value="完了">
                                     @else
-                                    <input class="btn btn-info" type="submit" value="作業中">
+                                        <input class="btn btn-info" type="submit" value="作業中">
                                     @endif
                             </form>
                         </td>
@@ -84,7 +84,7 @@
                             <form action="/updateCompleted" method="post">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{$task->id}}">
-                                    @if($task->completed != 0)
+                                    @if($task->isCompleted)
                                     <input class="btn btn-success" type="submit" value="完了">
                                     @else
                                     <input class="btn btn-info" type="submit" value="作業中">
