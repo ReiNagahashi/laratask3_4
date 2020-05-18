@@ -13,9 +13,7 @@ class TaskController extends Controller
         $completedTasks = Task::where('isCompleted','!==', false)->get();
         $uncompletedTasks = Task::where('isCompleted','===', true)->get();
 
-        return view('home')->with('tasks',$tasks)
-                           ->with('completedTasks',$completedTasks)
-                           ->with('uncompletedTasks',$uncompletedTasks); 
+        return view('home',compact('tasks','completedTasks','uncompletedTasks'));
     }
     public function create(Request $request){
         $this->validate($request,[
