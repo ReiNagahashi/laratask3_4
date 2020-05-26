@@ -1,10 +1,6 @@
 @extends('welcome')
 @section('page')
 
-@push('style')
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-@endpush
-
 <div class="container">
         @if(count($errors) > 0)
             <ul class="list-group">
@@ -23,11 +19,11 @@
           </div>
         </form>
         @if(count($tasks) > 0)
-        <div>
+        <form id="task-form">
             <label class="radio-inline"><input type="radio" id="all" name="task" checked>全て</label>
             <label class="radio-inline"><input type="radio" id="completed" name="task">完了</label>
             <label class="radio-inline"><input type="radio" id="uncompleted" name="task">作業中</label>
-        </div>     
+        </form>     
         <table class="table">
             <thead> 
                 <th>Id</th>
@@ -35,9 +31,9 @@
                 <th>状態</th>
                 <th>Action</th>
             </thead> 
-            <tbody class="switch switchAll">
+            <tbody>
                 @foreach($tasks as $task)
-                    <tr>
+                    <tr class="tasks">
                         <td>{{$task->id}}</td>
                         <td>{{$task->title}}</td>
                         <td>
@@ -45,9 +41,9 @@
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{$task->id}}">
                                     @if($task->isCompleted)
-                                    <input class="btn btn-success" type="submit" value="完了">
+                                       <input class="btn btn-success completedTasks" type="submit" value="完了">
                                     @else
-                                    <input class="btn btn-info" type="submit" value="作業中">
+                                       <input class="btn btn-info uncompletedTasks" type="submit" value="作業中">
                                     @endif
                             </form>
                         </td>
@@ -55,62 +51,30 @@
                     </tr>
                 @endforeach
             </tbody>
-            <tbody class="switch switchCompleted">
-                 @foreach($completedTasks as $task)
-                    <tr>
-                        <td>{{$task->id}}</td>
-                        <td>{{$task->title}}</td>
-                        <td>
-                            <form action="/updateCompleted" method="post">
-                                @csrf
-                                <input type="hidden" name="task_id" value="{{$task->id}}">
-                                    @if($task->isCompleted)
-                                        <input class="btn btn-success" type="submit" value="完了">
-                                    @else
-                                        <input class="btn btn-info" type="submit" value="作業中">
-                                    @endif
-                            </form>
-                        </td>
-                        <td><button class="btn btn-danger">削除</button></td>
-                  </tr>
-                @endforeach
-            </tbody>
-            <tbody class="switch switchUncompleted">
-                 @foreach($uncompletedTasks as $task)
-                    <tr>
-                        <td>{{$task->id}}</td>
-                        <td>{{$task->title}}</td>
-                        <td>
-                            <form action="/updateCompleted" method="post">
-                                @csrf
-                                <input type="hidden" name="task_id" value="{{$task->id}}">
-                                    @if($task->isCompleted)
-                                    <input class="btn btn-success" type="submit" value="完了">
-                                    @else
-                                    <input class="btn btn-info" type="submit" value="作業中">
-                                    @endif
-                            </form>
-                        </td>
-                        <td><button class="btn btn-danger">削除</button></td>
-                    </tr>
-                @endforeach
-          </tbody>
-      </table>
-    @endif
+        </table>
+        @endif
 </div>
     <script>
-        $('[name="task"]:radio').change(function(){
-            if($('#all').is(':checked')){
-                $('.switch').fadeOut();
-                $('.switchAll').fadeIn();
-            }else if($('#completed').is(':checked')){
-                $('.switch').fadeOut();
-                $('.switchCompleted').fadeIn();
-            }else if($('#uncompleted').is(':checked')){
-                $('.switch').fadeOut();
-                $('.switchUncompleted').fadeIn();
-            }
-         })
+        // Radio button
+        const all = document.getElementById('all');
+        const completed = document.getElementById('completed');
+        const uncompleted = document.getElementById('uncompleted');
+        // Task elements
+        const tasks = document.querySelectorAll('.tasks');
+        const completedTasks = document.querySelectorAll('.completedTasks');
+        const uncompletedTasks = document.querySelectorAll('.uncompletedTasks');
+        //Method 
+        document.getElementById('task-form').addEventListener('click',() =>{
+            if(all.checked){
+                tasks.forEach( task => task.style.display = 'block');
+            }else if(completed.checked){
+                completedTasks.forEach(task=> task.closest('.tasks').style.display = 'block');
+                uncompletedTasks.forEach(task=> task.closest('.tasks').style.display = 'none');
+            }else if(uncompleted.checked){
+                completedTasks.forEach(task=> task.closest('.tasks').style.display = 'none');
+                uncompletedTasks.forEach(task=> task.closest('.tasks').style.display = 'block');
+              }
+        });
     </script>
 @endsection
 
