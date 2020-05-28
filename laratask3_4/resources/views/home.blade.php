@@ -25,12 +25,14 @@
             <label class="radio-inline"><input type="radio" id="uncompleted" name="task">作業中</label>
         </form>     
         <table class="table">
-            <thead> 
-                <th>Id</th>
-                <th>タイトル</th>
-                <th>状態</th>
-                <th>Action</th>
-            </thead> 
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>タイトル</th>
+                    <th>状況</th>
+                    <th>アクション</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach($tasks as $task)
                     <tr class="tasks">
@@ -66,13 +68,13 @@
         //Method 
         document.getElementById('task-form').addEventListener('click',() =>{
             if(all.checked){
-                tasks.forEach( task => task.style.display = 'block');
+                tasks.forEach( task => task.style.display = 'table-row');
             }else if(completed.checked){
-                completedTasks.forEach(task=> task.closest('.tasks').style.display = 'block');
+                completedTasks.forEach(task=> task.closest('.tasks').style.display = 'table-row');
                 uncompletedTasks.forEach(task=> task.closest('.tasks').style.display = 'none');
             }else if(uncompleted.checked){
                 completedTasks.forEach(task=> task.closest('.tasks').style.display = 'none');
-                uncompletedTasks.forEach(task=> task.closest('.tasks').style.display = 'block');
+                uncompletedTasks.forEach(task=> task.closest('.tasks').style.display = 'table-row');
               }
         });
     </script>
